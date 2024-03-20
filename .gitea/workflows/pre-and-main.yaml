@@ -1,0 +1,27 @@
+name: pre_and_main
+
+on: push
+
+jobs:
+  prep:
+    runs-on: ubuntu-latest
+    steps:
+      - name: prep step 1
+        env:
+          PREPARE_SUCCESS: ${{ vars.PREPARE_SUCCESS }}
+        run: |
+          echo "PREPARE_SUCCESS var is $PREPARE_SUCCESS"
+          if [ $PREPARE_SUCCESS == "1" ]
+          then
+            exit 0
+          else
+            exit 1
+          fi          
+
+  main:
+    runs-on: ubuntu-latest
+    needs: [prep]
+    steps:
+      - name: main step 1
+        run: |
+          echo "main step 1"          
